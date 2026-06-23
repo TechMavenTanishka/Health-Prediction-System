@@ -40,13 +40,13 @@ A professional, full-stack health risk assessment dashboard built to satisfy the
 ## 📸 Screenshots
 
 ### 1. Home Dashboard & Form Input
-![Home](screenshots/home.png)
+![Home](Screenshots/home.png)
 
 ### 2. Live Health Prediction & AI Insight Report
-![Report](screenshots/report.png)
+![Report](Screenshots/report.png)
 
 ### 3. Patient Record Database Management Dashboard
-![Management](screenshots/management.png)
+![Management](Screenshots/management.png)
 
 ---
 
