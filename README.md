@@ -1,80 +1,60 @@
-# 🩺 Health Prediction System
+# 🩺 AI-Powered Health Prediction System
 
-AI-powered Health Prediction System built using Streamlit, SQLite, Python, and Gemini AI.
-
-## Features
-
-- Predicts patient health risks based on blood test values
-- AI-generated medical remarks using Gemini AI
-- SQLite database integration
-- Add patient records
-- Search patient records
-- Update patient records
-- Delete patient records
-- Export patient records to CSV
-- Input validation
-- Modern Streamlit UI
+A professional, full-stack health risk assessment dashboard built to satisfy the **Junior AI/ML Developer Assessment Task** requirements. The system integrates a Python web backend, localized persistent storage, input validation constraints, and the official Google Gemini AI interface layer.
 
 ---
 
-## Technologies Used
+## 📌 Task Requirement Checklist Mapping
 
-- Python
-- Streamlit
-- SQLite
-- Pandas
-- Gemini AI
-- Session State
+| Requirement Specification | Implementation Status | Core Module File Location |
+| :--- | :---: | :--- |
+| **1. CRUD Operations** (Create, Read, Update, Delete) |  Complete | `database.py` / `app.py` |
+| **2. User Interface** (Simple, clean, multi-column layout) |  Complete | `app.py` (Streamlit Tabs) |
+| **3. Data Validation** (Email regex, future date traps, non-zero values) |  Complete | `app.py` (`validate_inputs`) |
+| **4. Persistent Storage** (SQLite Database Infrastructure Engine) |  Complete | `database.py` (`patient.db`) |
+| **5. External AI/ML Health API** (Gemini Contextual Inference) |  Complete | `ai_service.py` (`gemini-2.5-flash-lite`) |
 
 ---
 
-## Screenshots
+## 🚀 Features
 
-### Home Page
+- **Risk Assessment:** Categorizes patient health risk based on glucose, haemoglobin, and cholesterol test metrics.
+- **AI Medical Insights:** Generates context-aware, 2-3 sentence professional clinical recommendations using Gemini AI, with automated fail-safes for high API traffic drops.
+- **Robust CRUD Operations:** Full administrative capabilities to add, look up, update, and drop complete patient profiles dynamically.
+- **Data Portability:** Clean export features parsing entire tables or filtered queries into a structured CSV file format instantly.
+- **Modern User Interface:** Customized CSS overrides providing fluid multi-column entry fields, clean layout hierarchy cards, and prominent status banners.
 
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend Framework:** Streamlit
+- **Language Layer:** Python 3.12+
+- **Database Engine:** SQLite (Persistent Storage)
+- **Data Processing:** Pandas
+- **AI Engine Platform:** Google GenAI Python SDK 
+- **Environment Handling:** Python-dotenv
+
+---
+
+## 📸 Screenshots
+
+### 1. Home Dashboard & Form Input
 ![Home](screenshots/home.png)
 
-### Prediction Report
+### 2. Live Health Prediction & AI Insight Report
+![Report](screenshots/report.png)
 
-![Report](screenshots/prediction_report.png)
-
-### Patient Management
-
-![Management](screenshots/patient_management.png)
+### 3. Patient Record Database Management Dashboard
+![Management](screenshots/management.png)
 
 ---
 
-## Installation
+## 💻 Installation & Local Deployment
 
+Follow these quick setup steps to get the environment initialized locally:
+
+### 1. Clone the Workspace
 ```bash
-git clone <repository_url>
-
-cd Health_Prediction_App
-
-pip install -r requirements.txt
-
-streamlit run app.py
-```
-
-## Environment Variables
-
-Create a `.env` file:
-
-```env
-GOOGLE_API_KEY=YOUR_API_KEY
-```
-
----
-
-## Future Improvements
-
-- PDF report generation
-- Data visualization dashboard
-- User authentication
-- Cloud deployment
-
----
-
-## Author
-
-Tanishka Shree
+git clone [https://github.com/TechMavenTanishka/Health-Prediction-System.git](https://github.com/TechMavenTanishka/Health-Prediction-System.git)
+cd Health-Prediction-System
