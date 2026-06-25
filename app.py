@@ -5,6 +5,7 @@ from database import get_all_patients
 from database import delete_patient
 from database import search_patient
 from database import update_patient
+from database import check_duplicate_patient
 from prediction import predict_health_risk
 from ai_service import generate_ai_remark
 import re
@@ -32,24 +33,16 @@ def validate_inputs(full_name, email, dob, glucose, haemoglobin, cholesterol):
 
     if dob > date.today():
         return False, "Date of Birth cannot be a future date."
-    
-    if glucose <= 0:
-        return False, "Glucose must be greater than 0."
 
-    if haemoglobin <= 0:
-        return False, "Haemoglobin must be greater than 0."
+    if glucose <= 0 or haemoglobin <= 0 or cholesterol <= 0:
+        return False, "Biomarkers must be greater than 0."
 
-    if cholesterol <= 0:
-        return False, "Cholesterol must be greater than 0."
+    if glucose > 1000 or haemoglobin > 30 or cholesterol > 1000:
+        return False, "Biomarkers value seems unrealistic."
 
-    if glucose > 1000:
-        return False, "Glucose value seems unrealistic."
-
-    if haemoglobin > 30:
-        return False, "Haemoglobin value seems unrealistic."
-
-    if cholesterol > 1000:
-        return False, "Cholesterol value seems unrealistic."
+    # --- NEW DUPLICATE CHECK ACCORDING TO TASK 2 ---
+    if check_duplicate_patient(full_name, email):
+        return False, f"Patient entry for '{full_name}' with email '{email}' already exists in the system database."
 
     return True, ""
 
