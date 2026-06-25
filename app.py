@@ -28,12 +28,17 @@ def validate_inputs(full_name, email, dob, glucose, haemoglobin, cholesterol):
     if not full_name.strip():
         return False, "Full Name is required."
 
-    email_pattern = r"^[\w\.-]+@[\w\.-]+\.\w+$"
+    email_pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
     if not re.match(email_pattern, email):
         return False, "Please enter a valid email address."
 
-    if dob > date.today():
-        return False, "Date of Birth cannot be a future date."
+    if dob == "INVALID_DATE":
+        return False, "The Date of Birth entered contains an invalid calendar day configuration (e.g., November 31st does not exist)."
+    if not dob:
+        return False, "Date of Birth field is required. Use format: DD.MM.YYYY"
+    
+    if not full_name.strip():
+        return False, "Full Name is required."
 
     if glucose <= 0 or haemoglobin <= 0 or cholesterol <= 0:
         return False, "Biomarkers must be greater than 0."
@@ -126,11 +131,18 @@ with tab1:
             full_name = st.text_input("Full Name", placeholder="e.g. John Doe")
             email = st.text_input("Email Address", placeholder="e.g. john@example.com")
         with p_col2:
-            dob = st.date_input(
-                "Date of Birth",
-                min_value=datetime.date(1900, 1, 1),
-                max_value=datetime.date.today()
-            )
+            # Use a text entry field so we can capture exactly what the user types without auto-correction
+            dob_str = st.text_input("Date of Birth (DD.MM.YYYY)", placeholder="e.g. 28.01.1960")
+            
+            # Strict verification block to intercept impossible calendar days
+            dob = None
+            if dob_str.strip():
+                try:
+                    day, month, year = map(int, dob_str.strip().split('.'))
+                    dob = datetime.date(year, month, day)
+                except ValueError:
+                    # This flags bad dates like November 31st instantly
+                    dob = "INVALID_DATE"
         st.markdown(
             '<p class="section-lbl">Blood Test Metrics</p>',
             unsafe_allow_html=True
@@ -180,16 +192,18 @@ with tab1:
             if not is_valid:
                 st.error(message)
             else:
+                # 1. Calculate local rule engine diagnostics immediately
                 risk_prediction = predict_health_risk(
                     glucose,
                     haemoglobin,
                     cholesterol
                 )
 
-                ai_remark = generate_ai_remark(
-                    risk_prediction
-                )
+                # 2. Wrap the API request inside a loading spinner and call it exactly once
+                with st.spinner("🔄 Consulting Gemini AI Medical Insights engine..."):
+                    ai_remark = generate_ai_remark(risk_prediction)
 
+                # 3. Securely commit results into the session state to preserve your quota
                 st.session_state.risk_prediction = risk_prediction
                 st.session_state.ai_remark = ai_remark
                 st.session_state.patient_name = full_name
