@@ -9,6 +9,7 @@ from database import check_duplicate_patient
 from prediction import predict_health_risk
 from ai_service import generate_ai_remark
 import re
+import datetime
 import pandas as pd
 from datetime import date
 import streamlit as st
@@ -125,9 +126,11 @@ with tab1:
             full_name = st.text_input("Full Name", placeholder="e.g. John Doe")
             email = st.text_input("Email Address", placeholder="e.g. john@example.com")
         with p_col2:
-            dob = st.date_input("Date of Birth", max_value=date.today())
-            st.markdown("<div style='margin-top: 28px;'></div>", unsafe_allow_html=True)
-
+            dob = st.date_input(
+                "Date of Birth",
+                min_value=datetime.date(1900, 1, 1),
+                max_value=datetime.date.today()
+            )
         st.markdown(
             '<p class="section-lbl">Blood Test Metrics</p>',
             unsafe_allow_html=True
